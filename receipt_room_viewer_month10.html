@@ -1729,7 +1729,12 @@ body {
           </div>
         </div>
 
-        <div class="sort-wrap">
+        <div class="sort-wrap" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; gap:4px; align-items:center;">
+            <button class="btn-act" id="qsDueAsc" onclick="handleSortChange('duedate-asc')" style="font-size:11px; font-weight:800; background:#2563eb; color:#fff; padding:4px 9px;" title="ترتيب تصاعدي بأيام الشهر 1 إلى 31">📅 من يوم 1 إلى 31</button>
+            <button class="btn-act" id="qsRoomAsc" onclick="handleSortChange('room-asc')" style="font-size:11px; font-weight:700; background:#f1f5f9; color:#475569; padding:4px 8px;" title="ترتيب برقم الغرفة">🔢 الغرفة</button>
+            <button class="btn-act" id="qsRemDesc" onclick="handleSortChange('rem-desc')" style="font-size:11px; font-weight:700; background:#f1f5f9; color:#475569; padding:4px 8px;" title="ترتيب بالمتبقي المطلوب">💰 المتبقي</button>
+          </div>
           <span style="font-size: 12px; font-weight: 800; color: var(--text-muted);">↕️ الترتيب:</span>
           <select id="sortSelect" class="sort-select" onchange="handleSortChange(this.value)">
             <option value="duedate-asc" selected>🗓️ تاريخ الاستحقاق: من أول الشهر (1) إلى آخره</option>
@@ -1741,6 +1746,13 @@ body {
             <option value="discounts-first">🏷️ الغرف ذات الخصم أولاً</option>
           </select>
         </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Monthly Due Days Strip (1 to 31) -->
+      <div class="command-row-4" style="margin-top: 10px; display: flex; align-items: center; gap: 8px; overflow-x: auto; padding: 7px 12px; background: #f8fafc; border-radius: 8px; border: 1px dashed var(--border);">
+        <span style="font-size: 11.5px; font-weight: 800; color: #1e40af; white-space: nowrap;">🗓️ استحقاق الأيام (أكتوبر):</span>
+        <div id="vDueDaysContainer" style="display: flex; gap: 4px; align-items: center; overflow-x: auto;"></div>
       </div>
     </div>
 
@@ -5743,6 +5755,51 @@ let filteredRooms = [];
 
 // Lightbox state
 let activeLightboxFilename = null;
+let currentDueDayFilter = 'all';
+
+function renderViewerDueDaysBar() {
+  const container = document.getElementById('vDueDaysContainer');
+  if (!container) return;
+
+  const dayCounts = {};
+  let totalWithDay = 0;
+  let vacantCount = 0;
+
+  mergedRooms.forEach(r => {
+    if (currentSecFilter !== 'all' && r.section !== currentSecFilter) return;
+    const d = r.dueDay;
+    if (r.statusCode === 'vacant' || !d || d <= 0) {
+      vacantCount++;
+    } else {
+      dayCounts[d] = (dayCounts[d] || 0) + 1;
+      totalWithDay++;
+    }
+  });
+
+  const sortedDays = Object.keys(dayCounts).map(Number).sort((a, b) => a - b);
+
+  let html = '<button class="btn-act ' + (currentDueDayFilter === 'all' ? 'active' : '') + '" onclick="setDueDayFilter(\'all\')" style="font-size:11px; font-weight:800; padding:3px 8px;' + (currentDueDayFilter === 'all' ? 'background:#2563eb; color:#fff;' : 'background:#e2e8f0; color:#334155;') + '">🗓️ كافة الأيام (' + totalWithDay + ')</button>';
+
+  sortedDays.forEach(day => {
+    const cnt = dayCounts[day];
+    const isAct = currentDueDayFilter === String(day);
+    html += '<button class="btn-act ' + (isAct ? 'active' : '') + '" onclick="setDueDayFilter(\'' + day + '\')" style="font-size:11px; font-weight:700; padding:3px 7px;' + (isAct ? 'background:#2563eb; color:#fff;' : 'background:#fff; border:1px solid #cbd5e1; color:#334155;') + '">يوم ' + day + ' <small>(' + cnt + ')</small></button>';
+  });
+
+  if (vacantCount > 0) {
+    const isVacAct = currentDueDayFilter === 'vacant';
+    html += '<button class="btn-act ' + (isVacAct ? 'active' : '') + '" onclick="setDueDayFilter(\'vacant\')" style="font-size:11px; font-weight:700; padding:3px 7px;' + (isVacAct ? 'background:#64748b; color:#fff;' : 'background:#f1f5f9; color:#64748b;') + '">🚪 شاغرة (' + vacantCount + ')</button>';
+  }
+
+  container.innerHTML = html;
+}
+
+function setDueDayFilter(day) {
+  currentDueDayFilter = day;
+  renderViewerDueDaysBar();
+  applyFilterAndSort();
+}
+
 let currentLightboxZoom = 1;
 let currentLightboxRotate = 0;
 let autoSaveTimer = null;
@@ -6197,6 +6254,13 @@ function applyFilterAndSort() {
     if (currentSecFilter !== 'all' && r.section !== currentSecFilter) return false;
 
     // 2. Status Filter
+    if (typeof currentDueDayFilter !== 'undefined' && currentDueDayFilter !== 'all') {
+      if (currentDueDayFilter === 'vacant') {
+        if (r.statusCode !== 'vacant') return false;
+      } else {
+        if ((r.dueDay || 0) !== parseInt(currentDueDayFilter, 10)) return false;
+      }
+    }
     if (currentStatFilter === 'rented-month10') {
       if (r.statusCode === 'vacant') return false;
     } else if (currentStatFilter === 'due-today') {
@@ -6237,9 +6301,9 @@ function applyFilterAndSort() {
   // Sorting
   filteredRooms.sort((a, b) => {
     if (currentSortMode === 'duedate-asc') {
-      return (a.dueDay || 99) - (b.dueDay || 99);
+      const da = (a.dueDay && a.dueDay > 0) ? a.dueDay : 999; const db = (b.dueDay && b.dueDay > 0) ? b.dueDay : 999; if (da !== db) return da - db; return a.room.localeCompare(b.room, undefined, { numeric: true, sensitivity: 'base' });
     } else if (currentSortMode === 'duedate-desc') {
-      return (b.dueDay || 0) - (a.dueDay || 0);
+      const da = (a.dueDay && a.dueDay > 0) ? a.dueDay : -1; const db = (b.dueDay && b.dueDay > 0) ? b.dueDay : -1; if (da !== db) return db - da; return a.room.localeCompare(b.room, undefined, { numeric: true, sensitivity: 'base' });
     } else if (currentSortMode === 'room-asc') {
       return a.room.localeCompare(b.room, undefined, { numeric: true, sensitivity: 'base' });
     } else if (currentSortMode === 'room-desc') {
@@ -7218,7 +7282,7 @@ function setStatFilter(stat, btn) {
   }
 }
 
-function setSecFilter(sec, btn) {
+function setSecFilter(sec, btn) { if (typeof renderViewerDueDaysBar === 'function') renderViewerDueDaysBar();
   currentSecFilter = sec;
   document.querySelectorAll('.sec-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
@@ -7253,6 +7317,14 @@ function clearSearch() {
 
 function handleSortChange(val) {
   currentSortMode = val;
+  const sel = document.getElementById('sortSelect');
+  if (sel) sel.value = val;
+  const bDue = document.getElementById('qsDueAsc');
+  const bRoom = document.getElementById('qsRoomAsc');
+  const bRem = document.getElementById('qsRemDesc');
+  if (bDue) { bDue.style.background = val === 'duedate-asc' ? '#2563eb' : '#f1f5f9'; bDue.style.color = val === 'duedate-asc' ? '#fff' : '#475569'; }
+  if (bRoom) { bRoom.style.background = val === 'room-asc' ? '#2563eb' : '#f1f5f9'; bRoom.style.color = val === 'room-asc' ? '#fff' : '#475569'; }
+  if (bRem) { bRem.style.background = val === 'rem-desc' ? '#2563eb' : '#f1f5f9'; bRem.style.color = val === 'rem-desc' ? '#fff' : '#475569'; }
   applyFilterAndSort();
 }
 
@@ -7351,7 +7423,14 @@ function getActiveFilterDescription() {
   };
   if (currentStatFilter !== 'all' && currentStatFilter !== 'rented-month10') {
     parts.push(statNames[currentStatFilter] || currentStatFilter);
-  } else if (currentStatFilter === 'rented-month10') {
+  } else if (typeof currentDueDayFilter !== 'undefined' && currentDueDayFilter !== 'all') {
+      if (currentDueDayFilter === 'vacant') {
+        if (r.statusCode !== 'vacant') return false;
+      } else {
+        if ((r.dueDay || 0) !== parseInt(currentDueDayFilter, 10)) return false;
+      }
+    }
+    if (currentStatFilter === 'rented-month10') {
     parts.push('المؤجرة لشهر 10');
   }
   if (currentSearchQuery) {

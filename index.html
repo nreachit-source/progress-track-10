@@ -205,6 +205,43 @@
             <span class="pill-counter" id="cntNoContract">0</span>
           </button>
         </div>
+
+        <!-- Sort Controls and Due Days Navigator -->
+        <div class="sort-and-days-wrapper">
+          <div class="sort-bar-row">
+            <div class="sort-selector-group">
+              <span class="sort-icon-label">↕️ الترتيب:</span>
+              <select id="sortOrderSelect" class="sort-select-input">
+                <option value="due_asc" selected>📅 تاريخ الاستحقاق: من يوم 1 إلى نهاية الشهر (1 ← 31)</option>
+                <option value="due_desc">📅 تاريخ الاستحقاق: من نهاية الشهر إلى أوله (31 ← 1)</option>
+                <option value="room_asc">🔢 رقم الغرفة تصاعدياً (A1 ← C59)</option>
+                <option value="room_desc">🔢 رقم الغرفة تنازلياً (C59 ← A1)</option>
+                <option value="remaining_desc">💰 المبلغ المتبقي: من الأعلى للأقل</option>
+                <option value="rent_desc">💵 القيمة الإيجارية: من الأعلى للأقل</option>
+              </select>
+            </div>
+
+            <div class="quick-sort-pills">
+              <button class="quick-sort-btn active" data-sort="due_asc" title="ترتيب حسب أيام الشهر من 1 إلى 31">
+                <span>📅 ترتيب بأيام الشهر (1 ← 31)</span>
+              </button>
+              <button class="quick-sort-btn" data-sort="room_asc" title="ترتيب حسب رقم الغرفة">
+                <span>🔢 رقم الغرفة (A1 ← C59)</span>
+              </button>
+              <button class="quick-sort-btn" data-sort="remaining_desc" title="ترتيب حسب المتبقي">
+                <span>💰 الأعلى متبقياً</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Monthly Day Navigator (1 to 31) -->
+          <div class="due-days-bar" id="dueDaysBar">
+            <span class="due-days-title">🗓️ أيام الاستحقاق (أكتوبر):</span>
+            <div class="due-days-list" id="dueDaysList">
+              <!-- Dynamically populated by app.js: [الكل] [يوم 1] [يوم 2] ... [يوم 30] -->
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Filter Results Count Summary -->

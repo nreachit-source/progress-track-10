@@ -16,6 +16,8 @@
   let currentFilter = 'all';   // 'all', 'paid', 'unpaid', 'partial', 'vacant', 'due', 'receipts', 'discount', 'contract_paid', 'contract_no_receipt', 'contract_outdated', 'no_contract'
   let currentSearch = '';
   let currentView = 'cards';   // 'cards', 'gallery', 'table'
+  let currentSort = 'due_asc'; // 'due_asc', 'due_desc', 'room_asc', 'room_desc', 'remaining_desc', 'rent_desc'
+  let currentDueDayFilter = 'all'; // 'all' or day number (1..31) or 'vacant'
 
   const CURRENT_DAY = 1; // Month 10 (October 2026) Collection Cycle
 
@@ -78,6 +80,7 @@
     }
 
     setupEventListeners();
+    renderDueDaysBar();
     applyFilterAndRender();
   };
 
@@ -97,6 +100,8 @@
         document.querySelectorAll('.section-tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentSection = btn.dataset.section;
+        currentDueDayFilter = 'all'; // Reset day filter on section change
+        renderDueDaysBar();
         applyFilterAndRender();
       });
     });
@@ -107,6 +112,30 @@
         document.querySelectorAll('.filter-pill-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentFilter = btn.dataset.filter;
+        applyFilterAndRender();
+      });
+    });
+
+    // Sort order select
+    const sortSelect = document.getElementById('sortOrderSelect');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', (e) => {
+        currentSort = e.target.value;
+        document.querySelectorAll('.quick-sort-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.sort === currentSort);
+        });
+        applyFilterAndRender();
+      });
+    }
+
+    // Quick sort pills
+    document.querySelectorAll('.quick-sort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.quick-sort-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentSort = btn.dataset.sort;
+        const sel = document.getElementById('sortOrderSelect');
+        if (sel) sel.value = currentSort;
         applyFilterAndRender();
       });
     });
@@ -122,6 +151,65 @@
     });
   }
 
+  function renderDueDaysBar() {
+    const listEl = document.getElementById('dueDaysList');
+    if (!listEl) return;
+
+    // Tally room counts per due day
+    const dayCounts = {};
+    let vacantCount = 0;
+    let totalWithDay = 0;
+
+    allRooms.forEach(r => {
+      if (currentSection !== 'all' && r.section !== currentSection) return;
+      const d = r.dueDay;
+      if (r.statusCode === 'vacant' || r.status === 'خالي' || !d || d <= 0) {
+        vacantCount++;
+      } else {
+        dayCounts[d] = (dayCounts[d] || 0) + 1;
+        totalWithDay++;
+      }
+    });
+
+    const sortedDays = Object.keys(dayCounts).map(Number).sort((a, b) => a - b);
+
+    let html = `
+      <button class="due-day-pill-btn ${currentDueDayFilter === 'all' ? 'active' : ''}" data-day="all" title="عرض كافة أيام الشهر مرتبة من 1 إلى 31">
+        <span>🗓️ كل الأيام</span> <small>(${totalWithDay})</small>
+      </button>
+    `;
+
+    sortedDays.forEach(day => {
+      const cnt = dayCounts[day];
+      const isAct = currentDueDayFilter === String(day);
+      html += `
+        <button class="due-day-pill-btn ${isAct ? 'active' : ''}" data-day="${day}" title="استحقاق يوم ${day} من الشهر (${cnt} غرفة)">
+          <span>يوم ${day}</span> <small>(${cnt})</small>
+        </button>
+      `;
+    });
+
+    if (vacantCount > 0) {
+      const isVacAct = currentDueDayFilter === 'vacant';
+      html += `
+        <button class="due-day-pill-btn ${isVacAct ? 'active' : ''}" data-day="vacant" title="الوحدات الشاغرة ومطبخ الخدمات">
+          <span>🚪 شواغر</span> <small>(${vacantCount})</small>
+        </button>
+      `;
+    }
+
+    listEl.innerHTML = html;
+
+    listEl.querySelectorAll('.due-day-pill-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        listEl.querySelectorAll('.due-day-pill-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentDueDayFilter = btn.dataset.day;
+        applyFilterAndRender();
+      });
+    });
+  }
+
   function applyFilterAndRender() {
     filteredRooms = allRooms.filter(r => {
       // 1. Section Filter
@@ -129,7 +217,17 @@
         return false;
       }
 
-      // 2. Status / Category / Contract Filter
+      // 2. Specific Due Day Filter (from Due Days Navigator)
+      if (currentDueDayFilter !== 'all') {
+        if (currentDueDayFilter === 'vacant') {
+          if (r.status !== 'خالي' && r.statusCode !== 'vacant') return false;
+        } else {
+          const d = parseInt(currentDueDayFilter, 10);
+          if ((r.dueDay || 0) !== d) return false;
+        }
+      }
+
+      // 3. Status / Category / Contract Filter
       if (currentFilter === 'paid' && r.status !== 'تم التحصيل') return false;
       if (currentFilter === 'unpaid' && r.status !== 'لم يتم التحصيل') return false;
       if (currentFilter === 'partial' && r.status !== 'سداد جزئي') return false;
@@ -145,7 +243,7 @@
         if ((r.dueDay || 0) > CURRENT_DAY) return false;
       }
 
-      // 3. Search Query
+      // 4. Search Query
       if (currentSearch) {
         const q = currentSearch;
         const roomMatch = (r.room || '').toLowerCase().includes(q);
@@ -162,6 +260,32 @@
       }
 
       return true;
+    });
+
+    // 5. Multi-Mode Sorting (Defaults to due date: 1, 2, 3... 31)
+    filteredRooms.sort((a, b) => {
+      if (currentSort === 'due_asc') {
+        const da = (a.dueDay && a.dueDay > 0) ? a.dueDay : 999;
+        const db = (b.dueDay && b.dueDay > 0) ? b.dueDay : 999;
+        if (da !== db) return da - db;
+        return (a.room || '').localeCompare(b.room || '', undefined, { numeric: true, sensitivity: 'base' });
+      } else if (currentSort === 'due_desc') {
+        const da = (a.dueDay && a.dueDay > 0) ? a.dueDay : -1;
+        const db = (b.dueDay && b.dueDay > 0) ? b.dueDay : -1;
+        if (da !== db) return db - da;
+        return (a.room || '').localeCompare(b.room || '', undefined, { numeric: true, sensitivity: 'base' });
+      } else if (currentSort === 'room_asc') {
+        return (a.room || '').localeCompare(b.room || '', undefined, { numeric: true, sensitivity: 'base' });
+      } else if (currentSort === 'room_desc') {
+        return (b.room || '').localeCompare(a.room || '', undefined, { numeric: true, sensitivity: 'base' });
+      } else if (currentSort === 'remaining_desc') {
+        return (b.remaining || 0) - (a.remaining || 0);
+      } else if (currentSort === 'rent_desc') {
+        const ra = a.effectiveRent || a.rent || 0;
+        const rb = b.effectiveRent || b.rent || 0;
+        return rb - ra;
+      }
+      return 0;
     });
 
     updateDashboardKPIs();
@@ -466,6 +590,7 @@
               <span class="room-prefix">غرفة</span>
               <strong>${r.room}</strong>
               <span class="sec-badge sec-${(r.section || 'A').toLowerCase()}">قسم ${r.section}</span>
+              ${r.dueDay > 0 ? `<span class="card-due-day-chip">📅 يوم ${r.dueDay}</span>` : '<span class="card-due-day-chip chip-vacant">شاغرة</span>'}
             </div>
             <div style="display:flex; gap:6px; align-items:center;">
               ${contractBadge}
@@ -630,6 +755,9 @@
           <td style="text-align:center;">${seq++}</td>
           <td style="text-align:center; font-weight:700;">${r.room}</td>
           <td style="text-align:center;">${r.section}</td>
+          <td style="text-align:center;">
+            ${r.dueDay > 0 ? `<span class="table-due-badge">يوم ${r.dueDay}</span>` : '<span style="color:#64748b; font-size:10px;">-</span>'}
+          </td>
           <td style="font-weight:600;">${r.tenant}</td>
           <td style="text-align:center; direction:ltr;">${r.phone ? '0' + r.phone : '-'}</td>
           <td style="text-align:center;">${contract.toLocaleString()}</td>
@@ -664,6 +792,7 @@
               <th>م</th>
               <th>الغرفة</th>
               <th>القسم</th>
+              <th>يوم الاستحقاق</th>
               <th>اسم المستأجر</th>
               <th>الهاتف</th>
               <th>إيجار العقد</th>
@@ -682,7 +811,7 @@
           </tbody>
           <tfoot>
             <tr class="table-total-row">
-              <td colspan="5" style="text-align:center; font-weight:700;">الإجمالي للمجموع المعروض</td>
+              <td colspan="6" style="text-align:center; font-weight:700;">الإجمالي للمجموع المعروض</td>
               <td style="text-align:center;">${sumContract.toLocaleString()}</td>
               <td style="text-align:center; color:#f59e0b;">${sumDiscount.toLocaleString()}</td>
               <td style="text-align:center;">${sumEffective.toLocaleString()}</td>
