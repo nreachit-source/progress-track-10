@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منظومة التحصيل والمطابقة العقارية (أكتوبر 2026)</title>
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 1. AUTHENTICATION GATE & LOCK SCREEN                         -->
+  <!-- ============================================================ -->
+  <div id="authGate" class="auth-gate-overlay">
+    <div id="authCard" class="auth-card">
+      <div class="auth-icon-badge">🔒</div>
+      <h2 class="auth-title">منظومة التحصيل والمطابقة العقارية</h2>
+      <p class="auth-subtitle">بوابة الدخول المؤمنة — يرجى إدخال كلمة المرور المعتمدة لعرض لوحة المطابقة وكشوفات الحسابات</p>
+      
+      <div class="auth-badge-secure">
+        <span>🛡️</span>
+        <span>بوابة دخول مشفرة ومحمية (SHA-256)</span>
+      </div>
+
+      <div class="auth-form-group">
+        <div class="auth-input-wrapper">
+          <input 
+            type="password" 
+            id="authPassword" 
+            class="auth-input" 
+            placeholder="••••••••••••••••" 
+            autocomplete="current-password"
+            autofocus
+          >
+          <span class="auth-input-icon">🔑</span>
+          <button type="button" class="auth-toggle-pwd" onclick="togglePasswordVisibility()" title="إظهار / إخفاء">
+            <span id="pwdToggleIcon">👁️</span>
+          </button>
+        </div>
+        <div id="authError" class="auth-error-msg"></div>
+      </div>
+
+      <button id="authSubmitBtn" class="auth-btn-submit" onclick="verifyPassword()">
+        <span>دخول واستعراض المنظومة</span>
+        <span>⬅️</span>
+      </button>
+
+      <div class="auth-footer-note">
+        وضع القراءة والمطابقة المعتمد • أكتوبر 2026 • مشفر
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 2. MAIN APPLICATION (AUTHENTICATED READ-ONLY DASHBOARD)       -->
+  <!-- ============================================================ -->
+  <div id="mainApp" style="display: none;">
+
+    <!-- Executive Header -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="brand-area">
+          <div class="brand-icon">🏢</div>
+          <div class="brand-text">
+            <h1>
+              <span>منظومة التحصيل والمطابقة العقارية</span>
+              <span class="brand-month-badge">أكتوبر 2026</span>
+            </h1>
+            <p>كشف تحصيل ومطابقة الإيجارات ومتابعة الإيداعات البنكية المعتمدة بدقة 100%</p>
+          </div>
+        </div>
+
+        <div class="header-center-info">
+          <div class="header-badge-readonly">
+            <span>👁️</span>
+            <span>وضع القراءة والمطابقة المعتمد</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn-header btn-header-green" onclick="openExportModal('excel')" title="تصدير كشف شامل للإكسيل بصيغة XLSX حقيقية">
+            <span>📊 تصدير Excel</span>
+          </button>
+          <button class="btn-header btn-header-blue" onclick="openExportModal('pdf')" title="حفظ كملف PDF أو طباعة">
+            <span>📄 حفظ كـ PDF / طباعة</span>
+          </button>
+          <button class="btn-header btn-header-lock" onclick="lockDashboard()" title="قفل الشاشة والعودة لبوابة الدخول">
+            <span>🔒 قفل</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="main-container">
+
+      <!-- Executive KPI Cards -->
+      <section class="kpi-row">
+        <!-- KPI 1: Collected -->
+        <div class="kpi-card kpi-green">
+          <div class="kpi-label">إجمالي المحصل الفعلي المؤكد</div>
+          <div class="kpi-value" id="kpiTotalCollected">0 <span style="font-size: 14px;">د.إ</span></div>
+          <div class="kpi-subtext" style="color: #4ade80;">
+            <span>✅ 100% مدعوم بإيصالات بنكية معتمدة</span>
+          </div>
+        </div>
+
+        <!-- KPI 2: Target Rent -->
+        <div class="kpi-card kpi-blue">
+          <div class="kpi-label">المستهدف التأجيري الإجمالي</div>
+          <div class="kpi-value" id="kpiTargetRent">0 <span style="font-size: 14px;">د.إ</span></div>
+          <div class="kpi-subtext" id="kpiCollectionRate">
+            0% من المستهدف
+          </div>
+        </div>
+
+        <!-- KPI 3: Remaining Balance -->
+        <div class="kpi-card kpi-red">
+          <div class="kpi-label">المتبقي المطلوب تحصيله</div>
+          <div class="kpi-value" id="kpiTotalRemaining">0 <span style="font-size: 14px;">د.إ</span></div>
+          <div class="kpi-subtext" style="color: #f87171;">
+            <span>⚠️ متأخرات وإيجارات قيد السداد</span>
+          </div>
+        </div>
+
+        <!-- KPI 4: Portfolio Summary -->
+        <div class="kpi-card kpi-purple">
+          <div class="kpi-label">حالة وحدات المحفظة (98 وحدة)</div>
+          <div class="kpi-subtext" id="kpiCountsSummary" style="margin-top: 8px;">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Dashboard Controls & Filter Bar -->
+      <section class="controls-wrapper">
+        <div class="controls-top-row">
+          <!-- Section Tabs -->
+          <div class="section-tabs-group">
+            <button class="section-tab-btn active" data-section="all">كافة الأقسام (98)</button>
+            <button class="section-tab-btn" data-section="A">قسم A (15)</button>
+            <button class="section-tab-btn" data-section="B">قسم B (24)</button>
+            <button class="section-tab-btn" data-section="C">قسم C (59)</button>
+          </div>
+
+          <!-- Search Box -->
+          <div class="search-box-wrapper">
+            <input type="text" id="roomSearchInput" placeholder="بحث برقم الغرفة (مثل C48, B22) أو اسم المستأجر أو الهاتف...">
+            <span class="search-icon">🔍</span>
+          </div>
+
+          <!-- View Switcher Tabs -->
+          <div class="view-tabs-group">
+            <button class="view-tab-btn active" data-view="cards">🎴 بطاقات الغرف</button>
+            <button class="view-tab-btn" data-view="gallery">🖼️ معرض الإيصالات</button>
+            <button class="view-tab-btn" data-view="table">📋 جدول شامل</button>
+          </div>
+        </div>
+
+        <!-- Filter Pills Row -->
+        <div class="filter-pills-row">
+          <button class="filter-pill-btn active" data-filter="all">
+            <span>الكل</span>
+            <span class="pill-counter" id="cntAll">98</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="paid">
+            <span>المسددة بالكامل</span>
+            <span class="pill-counter" id="cntPaid">54</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="unpaid">
+            <span>غير المسددة</span>
+            <span class="pill-counter" id="cntUnpaid">16</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="partial">
+            <span>سداد جزئي</span>
+            <span class="pill-counter" id="cntPartial">1</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="vacant">
+            <span>الشواغر والإخلاء</span>
+            <span class="pill-counter" id="cntVacant">27</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="due">
+            <span>المستحقة حتى اليوم</span>
+            <span class="pill-counter" id="cntDue">0</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="receipts">
+            <span>تحتوي على إيصالات</span>
+            <span class="pill-counter" id="cntReceipts">0</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="contract_paid">
+            <span>عقد سارٍ ومسدد</span>
+            <span class="pill-counter" id="cntContractPaid">0</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="contract_no_receipt">
+            <span>عقد بدون إيصال</span>
+            <span class="pill-counter" id="cntContractNoReceipt">0</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="contract_outdated">
+            <span>عقد يحتاج لتحديث</span>
+            <span class="pill-counter" id="cntContractOutdated">0</span>
+          </button>
+          <button class="filter-pill-btn" data-filter="no_contract">
+            <span>شواغر وبدون عقد</span>
+            <span class="pill-counter" id="cntNoContract">0</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Filter Results Count Summary -->
+      <div class="filter-summary-bar">
+        <span id="filterResultsCount">عرض 98 من أصل 98 وحدة</span>
+        <span style="font-size: 11px;">تحديث مباشر ومتطابق مع سجلات الإيداع البنكية</span>
+      </div>
+
+      <!-- Views Containers -->
+      <section id="cardsViewContainer" class="cards-grid"></section>
+      <section id="galleryViewContainer" class="gallery-grid" style="display: none;"></section>
+      <section id="tableViewContainer" style="display: none;"></section>
+
+    </main>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 3. MODALS (RECEIPT VIEWER & EXPORT)                          -->
+  <!-- ============================================================ -->
+
+  <!-- Fullscreen Receipt Viewer Modal -->
+  <div id="receiptViewerModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="viewerModalTitle">معاينة مستند التحصيل</h3>
+        <button class="modal-close-btn" onclick="closeReceiptModal()" title="إغلاق">✕</button>
+      </div>
+
+      <div id="viewerModalMeta" class="viewer-meta-row">
+        <!-- Rendered by viewer.js -->
+      </div>
+
+      <div class="viewer-body">
+        <div id="viewerMediaContainer" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+          <!-- Rendered by viewer.js -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="viewer-controls" id="viewerControlsGroup">
+          <button class="btn-ctrl" onclick="viewerZoom(0.2)" title="تكبير">➕ تكبير</button>
+          <button class="btn-ctrl" onclick="viewerZoom(-0.2)" title="تصغير">➖ تصغير</button>
+          <button class="btn-ctrl" onclick="viewerRotate(90)" title="تدوير">🔄 تدوير 90°</button>
+          <button class="btn-ctrl" onclick="viewerReset()" title="إعادة ضبط">↺ إعادة ضبط</button>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button id="viewerDownloadBtn" class="btn-ctrl" style="background: #2563eb; cursor: pointer;">⬇️ تنزيل المستند</button>
+          <button class="btn-ctrl" onclick="closeReceiptModal()">إغلاق</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Options Modal -->
+  <div id="exportModal" class="modal-backdrop">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 id="exportModalTitle">تصدير التقرير</h3>
+        <button class="modal-close-btn" onclick="closeExportModal()">✕</button>
+      </div>
+      <div style="padding: 24px;">
+        <p id="exportModalDesc" style="font-size: 13px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5;"></p>
+        
+        <div style="background: rgba(15, 23, 42, 0.6); padding: 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 20px;">
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 12px;">
+            <input type="radio" name="exportScope" value="filtered" checked style="accent-color: #4f46e5; width: 18px; height: 18px;">
+            <div>
+              <div style="font-size: 14px; font-weight: 700; color: #ffffff;">البيانات المعروضة حالياً فقط</div>
+              <div style="font-size: 12px; color: #94a3b8;">تصدير الغرف المطابقة للتصفية والقسم المحدد في الشاشة</div>
+            </div>
+          </label>
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <input type="radio" name="exportScope" value="all" style="accent-color: #4f46e5; width: 18px; height: 18px;">
+            <div>
+              <div style="font-size: 14px; font-weight: 700; color: #ffffff;">كافة وحدات المحفظة (98 وحدة)</div>
+              <div style="font-size: 12px; color: #94a3b8;">كشف الحسابات الإجمالي الشامل لجميع الأقسام والشواغر</div>
+            </div>
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="btn-ctrl" onclick="closeExportModal()">إلغاء</button>
+          <button id="exportConfirmBtn" class="btn-ctrl" style="background: #16a34a; padding: 10px 20px;" onclick="executeExport()">تأكيد التصدير</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Container for Landscape PDF Printing -->
+  <div id="printReportContainer"></div>
+
+  <!-- ============================================================ -->
+  <!-- 4. SCRIPTS INJECTION                                         -->
+  <!-- ============================================================ -->
+  <script src="js/xlsx.mini.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/viewer.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
