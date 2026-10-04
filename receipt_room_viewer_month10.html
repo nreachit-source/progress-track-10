@@ -1474,7 +1474,7 @@ body {
       <div class="header-center-info">
         <div class="date-indicator-badge" id="headerDateBadge">
           <span>📅</span>
-          <span id="headerDateText">اليوم: 19 أكتوبر 2026 (اليوم 19 من 30 — 63% من الشهر)</span>
+          <span id="headerDateText">اليوم: 4 أكتوبر 2026 (اليوم 4 من 31 — 13% من الشهر)</span>
         </div>
       </div>
 
@@ -1515,7 +1515,7 @@ body {
       <!-- KPI 2: Urgent Due -->
       <div class="kpi-box kpi-urgent" data-kpi="due-today" onclick="applyQuickFilter('due-today')">
         <div class="kpi-header">
-          <span class="kpi-title" id="kpiDueTitle">مستحق حتى اليوم (1/10)</span>
+          <span class="kpi-title" id="kpiDueTitle">مستحق حتى اليوم (4/10)</span>
           <span class="kpi-icon">🚨</span>
         </div>
         <div class="kpi-number" id="kpiDueCount">33</div>
@@ -1684,7 +1684,7 @@ body {
           <span class="pill-badge" id="cntRented">71</span>
         </button>
         <button class="cmd-pill pill-urgent" data-stat="due-today" onclick="setStatFilter('due-today', this)">
-          <span id="pillDueText">🚨 المستحق حتى 1/10 (عاجل)</span>
+          <span id="pillDueText">🚨 المستحق حتى 4/10 (عاجل)</span>
           <span class="pill-badge" id="cntDue">33</span>
         </button>
         <button class="cmd-pill pill-discount" data-stat="discounts" onclick="setStatFilter('discounts', this)">
@@ -5819,13 +5819,31 @@ let currentLightboxZoom = 1;
 let currentLightboxRotate = 0;
 let autoSaveTimer = null;
 
-// Dynamic Date: defaults to Day 19 of September 2026
+// Dynamic Date: defaults to Day 4 of October 2026
 function getCurrentDay() {
+  try {
+    const customDay = localStorage.getItem('progress_track_10_day');
+    if (customDay) {
+      const parsed = parseInt(customDay, 10);
+      if (!isNaN(parsed) && parsed >= 1 && parsed <= 31) return parsed;
+    }
+  } catch (e) {}
   const d = new Date();
-  if (d.getFullYear() === 2026 && d.getMonth() === 9) {
+  if (d.getMonth() === 9) {
     return Math.min(31, Math.max(1, d.getDate()));
   }
-  return 1;
+  return 4; // Default to Day 4 for October 2026
+}
+
+function setCollectionDay(day) {
+  const d = parseInt(day, 10);
+  if (!isNaN(d) && d >= 1 && d <= 31) {
+    try { localStorage.setItem('progress_track_10_day', d); } catch (e) {}
+    refreshMergedData();
+    updateDashboardMetrics();
+    applyFilterAndSort();
+    if (typeof renderViewerDueDaysBar === 'function') renderViewerDueDaysBar();
+  }
 }
 
 // Storage helpers
@@ -6228,10 +6246,17 @@ function updateDashboardMetrics() {
     elBannerTop.innerText = `إجمالي المستهدف: ${totalEffectiveTarget.toLocaleString()} د.إ | المحصل الفعلي: ${totalCollected.toLocaleString()} د.إ (${collectionRate}%)`;
   }
 
+  const elDueTitle = document.getElementById('kpiDueTitle');
+  if (elDueTitle) elDueTitle.innerText = `مستحق حتى اليوم (${curDay}/10)`;
+
+  const elPillDue = document.getElementById('pillDueText');
+  if (elPillDue) elPillDue.innerText = `🚨 المستحق حتى ${curDay}/10 (عاجل)`;
+
   const elHeaderDate = document.getElementById('headerDateText');
   if (elHeaderDate) {
     const pct = Math.round((curDay / 31) * 100);
-    elHeaderDate.innerText = `اليوم: ${curDay} أكتوبر 2026 (اليوم ${curDay} من 30 — ${pct}% من الشهر)`;
+    const dayOpts = Array.from({length:31}, (_, i) => `<option value="${i+1}" ${i+1 === curDay ? 'selected' : ''}>يوم ${i+1}</option>`).join('');
+    elHeaderDate.innerHTML = `اليوم: <select id="selCurrentDay" onchange="setCollectionDay(this.value)" style="background:#fff; border:1px solid #3b82f6; border-radius:4px; font-weight:800; color:#1e40af; padding:1px 6px; font-size:12px; cursor:pointer;" title="تغيير تاريخ يوم التحصيل">${dayOpts}</select> أكتوبر 2026 (اليوم ${curDay} من 31 — ${pct}% من الشهر)`;
   }
 
   // Meter segments

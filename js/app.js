@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // REAL ESTATE COLLECTION & AUDIT APPLICATION ENGINE
 // Read-Only Real Estate Dashboard for GitHub & Offline Deployment
 // Enhanced with Dual Contract & Receipt Verification
@@ -19,7 +19,41 @@
   let currentSort = 'due_asc'; // 'due_asc', 'due_desc', 'room_asc', 'room_desc', 'remaining_desc', 'rent_desc'
   let currentDueDayFilter = 'all'; // 'all' or day number (1..31) or 'vacant'
 
-  const CURRENT_DAY = 1; // Month 10 (October 2026) Collection Cycle
+  function getCurrentDay() {
+    try {
+      const customDay = localStorage.getItem('progress_track_10_day');
+      if (customDay) {
+        const parsed = parseInt(customDay, 10);
+        if (!isNaN(parsed) && parsed >= 1 && parsed <= 31) return parsed;
+      }
+    } catch (e) {}
+    const d = new Date();
+    if (d.getMonth() === 9) {
+      return Math.min(31, Math.max(1, d.getDate()));
+    }
+    return 4; // Default to Day 4 for October 2026
+  }
+  let CURRENT_DAY = getCurrentDay();
+
+  window.getCurrentDay = () => CURRENT_DAY;
+  window.setCollectionDay = function(day) {
+    const d = parseInt(day, 10);
+    if (!isNaN(d) && d >= 1 && d <= 31) {
+      CURRENT_DAY = d;
+      try { localStorage.setItem('progress_track_10_day', d); } catch (e) {}
+      const sel = document.getElementById('selAppCurrentDay');
+      if (sel) sel.value = String(d);
+      updateDuePillLabel();
+      applyFilterAndRender();
+      renderDueDaysBar();
+      updateMetrics();
+    }
+  };
+
+  function updateDuePillLabel() {
+    const lbl = document.getElementById('pillDueLabel');
+    if (lbl) lbl.textContent = `المستحقة حتى اليوم (${CURRENT_DAY}/10)`;
+  }
 
   window.getAllRooms = () => allRooms;
   window.getFilteredRooms = () => filteredRooms;
@@ -239,7 +273,7 @@
       if (currentFilter === 'contract_outdated' && (r.contractStatusCode !== 'contract_outdated' && !r.isContractOutdated)) return false;
       if (currentFilter === 'no_contract' && (r.contractStatusCode !== 'no_contract' && r.contractStatusCode !== 'vacant')) return false;
       if (currentFilter === 'due') {
-        if (r.status === 'تم التحصيل' || r.status === 'خالي') return false;
+        if (r.status === 'تم التحصيل' || r.status === 'خالي' || r.statusCode === 'vacant' || (r.remaining || 0) <= 0) return false;
         if ((r.dueDay || 0) > CURRENT_DAY) return false;
       }
 

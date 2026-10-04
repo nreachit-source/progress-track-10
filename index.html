@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -66,6 +66,12 @@
             <h1>
               <span>منظومة التحصيل والمطابقة العقارية</span>
               <span class="brand-month-badge">أكتوبر 2026</span>
+              <span class="brand-month-badge" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; font-size:12px; margin-right:6px;">
+                📅 يوم التحصيل: 
+                <select id="selAppCurrentDay" onchange="setCollectionDay(this.value)" style="border:none; background:transparent; font-weight:800; color:#0369a1; cursor:pointer; font-size:12px; outline:none;">
+                  <option value='1' >يوم 1</option><option value='2' >يوم 2</option><option value='3' >يوم 3</option><option value='4' selected>يوم 4</option><option value='5' >يوم 5</option><option value='6' >يوم 6</option><option value='7' >يوم 7</option><option value='8' >يوم 8</option><option value='9' >يوم 9</option><option value='10' >يوم 10</option><option value='11' >يوم 11</option><option value='12' >يوم 12</option><option value='13' >يوم 13</option><option value='14' >يوم 14</option><option value='15' >يوم 15</option><option value='16' >يوم 16</option><option value='17' >يوم 17</option><option value='18' >يوم 18</option><option value='19' >يوم 19</option><option value='20' >يوم 20</option><option value='21' >يوم 21</option><option value='22' >يوم 22</option><option value='23' >يوم 23</option><option value='24' >يوم 24</option><option value='25' >يوم 25</option><option value='26' >يوم 26</option><option value='27' >يوم 27</option><option value='28' >يوم 28</option><option value='29' >يوم 29</option><option value='30' >يوم 30</option><option value='31' >يوم 31</option>
+                </select>
+              </span>
             </h1>
             <p>كشف تحصيل ومطابقة الإيجارات ومتابعة الإيداعات البنكية المعتمدة بدقة 100%</p>
           </div>
@@ -181,8 +187,8 @@
             <span class="pill-counter" id="cntVacant">27</span>
           </button>
           <button class="filter-pill-btn" data-filter="due">
-            <span>المستحقة حتى اليوم</span>
-            <span class="pill-counter" id="cntDue">0</span>
+            <span id="pillDueLabel">المستحقة حتى اليوم (4/10)</span>
+            <span class="pill-counter" id="cntDue">11</span>
           </button>
           <button class="filter-pill-btn" data-filter="receipts">
             <span>تحتوي على إيصالات</span>
