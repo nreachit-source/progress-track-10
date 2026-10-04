@@ -2576,7 +2576,7 @@ body {
                      ],
         "isDueUntil16":  true,
         "statusCode":  "unpaid",
-        "explanation":  "إيداع نقدي بنك أبوظبي التجاري فرع مصفح بتاريخ 17/09/2026 بمبلغ 2,000 د.إ مكتمل",
+        "explanation":  "",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -3530,7 +3530,7 @@ body {
                      ],
         "isDueUntil16":  true,
         "statusCode":  "unpaid",
-        "explanation":  "دفعة أولى 1,850 د.إ + دفعة مكملة 150 د.إ بتاريخ 17/09/2026 لاكتمال إيجار سبتمبر (2,000 د.إ)",
+        "explanation":  "",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -4308,7 +4308,7 @@ body {
         "category":  "month10",
         "isDueUntil16":  false,
         "statusCode":  "unpaid",
-        "explanation":  "إيصال تحويل ProCash بنك أبوظبي التجاري مكتمل بمبلغ 2,000 د.إ لصالح شركة الوتد للمقاولات",
+        "explanation":  "",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -4551,7 +4551,7 @@ body {
                      ],
         "isDueUntil16":  true,
         "statusCode":  "unpaid",
-        "explanation":  "إيداع نقدي بنك أبوظبي التجاري فرع العين بتاريخ 18/09/2026 بمبلغ 2,000 د.إ",
+        "explanation":  "",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -4620,7 +4620,7 @@ body {
                      ],
         "isDueUntil16":  true,
         "statusCode":  "unpaid",
-        "explanation":  "حوالة مصرف أبوظبي الإسلامي بتاريخ 11/09/2026 بمبلغ 2,000 د.إ",
+        "explanation":  "",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -4644,7 +4644,7 @@ body {
         "startDate":  "2026/07/17",
         "dueDay":  17,
         "isDueUntil16":  false,
-        "explanation":  "إيداع نقدي 1,000 د.إ بتاريخ 17/09/2026 ومتبقي 1,000 د.إ",
+        "explanation":  "",
         "tenant":  "عمر احمد عمر عثمان",
         "contractRent":  2000,
         "rent":  2000,
@@ -6109,7 +6109,7 @@ function refreshMergedData() {
         r.dueLabel = `🚨 متأخر (يوم ${r.dueDay})`;
       } else if (r.dueDay === curDay) {
         r.dueUrgency = 'due_today';
-        r.dueLabel = `📌 مستحق اليوم (${curDay}/9)`;
+        r.dueLabel = `📌 مستحق اليوم (${curDay}/10)`;
       } else {
         r.dueUrgency = 'upcoming';
         r.dueLabel = `🗓️ قادم (يوم ${r.dueDay})`;
@@ -6359,7 +6359,7 @@ function renderActiveFilterTags() {
   if (currentStatFilter !== 'rented-month10') {
     hasCustomFilter = true;
     const statNames = {
-      'due-today': 'المستحق حتى 19/9',
+      'due-today': `المستحق حتى اليوم (${getCurrentDay()}/10)`,
       'discounts': 'خصم معتمد (200 د.إ)',
       'paid': 'مسدد بالكامل',
       'partial': 'سداد جزئي',
@@ -7428,7 +7428,7 @@ function getActiveFilterDescription() {
   const statNames = {
     'all': 'كافة الحالات',
     'rented-month10': 'المؤجرة لشهر 10',
-    'due-today': `المستحق حتى اليوم (${getCurrentDay()}/9)`,
+    'due-today': `المستحق حتى اليوم (${getCurrentDay()}/10)`,
     'discounts': 'الخصومات المعتمدة (200 د.إ)',
     'paid': 'المسددة بالكامل',
     'partial': 'السداد الجزئي',
@@ -7438,15 +7438,11 @@ function getActiveFilterDescription() {
   };
   if (currentStatFilter !== 'all' && currentStatFilter !== 'rented-month10') {
     parts.push(statNames[currentStatFilter] || currentStatFilter);
-  } else if (typeof currentDueDayFilter !== 'undefined' && currentDueDayFilter !== 'all') {
-      if (currentDueDayFilter === 'vacant') {
-        if (r.statusCode !== 'vacant') return false;
-      } else {
-        if ((r.dueDay || 0) !== parseInt(currentDueDayFilter, 10)) return false;
-      }
-    }
-    if (currentStatFilter === 'rented-month10') {
+  } else if (currentStatFilter === 'rented-month10') {
     parts.push('المؤجرة لشهر 10');
+  }
+  if (typeof currentDueDayFilter !== 'undefined' && currentDueDayFilter !== 'all') {
+    parts.push(currentDueDayFilter === 'vacant' ? 'الغرف الشاغرة' : `استحقاق يوم ${currentDueDayFilter}`);
   }
   if (currentSearchQuery) {
     parts.push(`بحث: "${currentSearchQuery}"`);
