@@ -1,1 +1,138 @@
-[]
+﻿[
+    {
+        "filename":  "a2-2000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.53 (1).jpeg",
+        "room":  "A2",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "b3-2000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.54 (3).jpeg",
+        "room":  "B3",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c3-1800-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.56.jpeg",
+        "room":  "C3",
+        "amount":  1800,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c5-c6-c8-c9-8000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.56 (1).jpeg",
+        "room":  "C5",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c5-c6-c8-c9-8000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.56 (1).jpeg",
+        "room":  "C6",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c5-c6-c8-c9-8000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.56 (1).jpeg",
+        "room":  "C8",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c5-c6-c8-c9-8000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.56 (1).jpeg",
+        "room":  "C9",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c12-1800-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.55 (1).jpeg",
+        "room":  "C12",
+        "amount":  1800,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c25-2000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.54 (2).jpeg",
+        "room":  "C25",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c27-700-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.55 (3).jpeg",
+        "room":  "C27",
+        "amount":  700,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c29-1800-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.54 (1).jpeg",
+        "room":  "C29",
+        "amount":  1800,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "c47-1800-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.55.jpeg",
+        "room":  "C47",
+        "amount":  1800,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "a10-2000-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.57 (2).jpeg",
+        "room":  "A10",
+        "amount":  2000,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "a14-1500-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.53878.jpeg",
+        "room":  "A14",
+        "amount":  1500,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "a14-500-2.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.54 (4).jpeg",
+        "room":  "A14",
+        "amount":  500,
+        "type":  "cash_deposit",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "internet-1250-1.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.54.jpeg",
+        "room":  "INTERNET",
+        "amount":  1250,
+        "type":  "internet_service",
+        "format":  "jpeg"
+    },
+    {
+        "filename":  "internet-1000-2.jpeg",
+        "oldFilename":  "WhatsApp Image 2026-10-04 at 21.11.58 (3).jpeg",
+        "room":  "INTERNET",
+        "amount":  1000,
+        "type":  "internet_service",
+        "format":  "jpeg"
+    }
+]

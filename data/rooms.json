@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "room":  "A1",
         "section":  "A",
@@ -39,18 +39,18 @@
         "tenant":  "وايز افريدي طاهر",
         "phone":  "562665571",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/02",
         "dueDay":  2,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي 2,000 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3567 تحصيل شهر 10 إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "a2-2000-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -63,9 +63,9 @@
         "contractTotalRent":  6000,
         "contractPeriod":  "3 أشهر",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.11.2)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "A3",
@@ -308,26 +308,26 @@
     {
         "room":  "A10",
         "section":  "A",
-        "tenant":  "شاغرة",
+        "tenant":  "مستأجر جديد (شهر 10)",
         "phone":  "",
-        "rent":  0,
-        "paid":  0,
+        "rent":  2000,
+        "paid":  2000,
         "remaining":  0,
-        "status":  "خالي",
-        "startDate":  "-",
-        "dueDay":  0,
-        "auditNote":  "غرفة شاغرة",
+        "status":  "تم التحصيل",
+        "startDate":  "2026/10/02",
+        "dueDay":  2,
+        "auditNote":  "إيداع نقدي 2,000 درهم (مصفح فرع 2 - 02/10/2026 ADB07102 إيصال 0873 تحصيل شهر 10 إيجار جديد)",
         "category":  "vacant",
         "receipts":  [
-
+                         "a10-2000-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "vacant",
-        "contractRent":  0,
+        "statusCode":  "paid",
+        "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
         "discountReason":  "",
-        "effectiveRent":  0,
+        "effectiveRent":  2000,
         "contractFile":  "",
         "contractStartDate":  "",
         "contractEndDate":  "",
@@ -335,9 +335,9 @@
         "contractTotalRent":  0,
         "contractPeriod":  "",
         "isContractOutdated":  false,
-        "contractStatus":  "شاغر",
-        "contractStatusCode":  "vacant",
-        "auditComment":  "شاغر"
+        "contractStatus":  "إيجار جديد مسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "إيجار جديد مسدد بإيصال (شهر 10)"
     },
     {
         "room":  "A11",
@@ -448,18 +448,19 @@
         "tenant":  "خالد جاد الكريم",
         "phone":  "501782753",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/01",
         "dueDay":  1,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي مقسم: 1,500 درهم (إيصال 0882) + 500 درهم (إيصال 3552) = 2,000 درهم تحصيل شهر 10 إكتمل",
         "category":  "month10",
         "receipts":  [
-
+                         "a14-1500-1.jpeg",
+                         "a14-500-2.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -472,9 +473,9 @@
         "contractTotalRent":  6000,
         "contractPeriod":  "3 أشهر",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.11.1)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "A15",
@@ -584,18 +585,18 @@
         "tenant":  "مولاي خان جول",
         "phone":  "568979705",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/07/02",
         "dueDay":  2,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي 2,000 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3561 تحصيل شهر 10 إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "b3-2000-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -608,9 +609,9 @@
         "contractTotalRent":  6000,
         "contractPeriod":  "3 أشهر",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.10.2)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "B4",
@@ -1401,18 +1402,18 @@
         "tenant":  "عزت شاه سليمان",
         "phone":  "544354814",
         "rent":  1800,
-        "paid":  0,
-        "remaining":  1800,
-        "status":  "لم يتم التحصيل",
+        "paid":  1800,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/01",
         "dueDay":  1,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (1800)",
+        "auditNote":  "إيداع نقدي 1,800 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3543 تحصيل شهر 10 إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "c3-1800-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  1800,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -1425,9 +1426,9 @@
         "contractTotalRent":  5400,
         "contractPeriod":  "3 أشهر",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.11.1)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C4",
@@ -1469,23 +1470,23 @@
         "tenant":  "محمد حلمي حسن الاشرم",
         "phone":  "",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/01",
         "dueDay":  1,
         "category":  "month10",
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
         "discountReason":  "",
         "effectiveRent":  2000,
         "receipts":  [
-
+                         "c5-c6-c8-c9-8000-1.jpeg"
                      ],
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي مجمع للغرف (C5, C6, C8, C9) بإجمالي 8,000 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3546 حصة الغرفة 2000 درهم إكتمل)",
         "contractFile":  "c5-2000-2026.8.1-2027.11.31.jpg",
         "contractStartDate":  "2026.8.1",
         "contractEndDate":  "2027.11.31",
@@ -1493,9 +1494,9 @@
         "contractTotalRent":  155000,
         "contractPeriod":  "سنة و 3 شهور",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2027.11.31)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C6",
@@ -1503,18 +1504,18 @@
         "tenant":  "محمد حلمي حسن الاشرم",
         "phone":  "",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/01",
         "dueDay":  1,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي مجمع للغرف (C5, C6, C8, C9) بإجمالي 8,000 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3546 حصة الغرفة 2000 درهم إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "c5-c6-c8-c9-8000-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -1527,9 +1528,9 @@
         "contractTotalRent":  155000,
         "contractPeriod":  "سنة و 3 شهور",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2027.11.31)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C7",
@@ -1571,18 +1572,18 @@
         "tenant":  "محمد حلمي حسن الاشرم",
         "phone":  "",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/01",
         "dueDay":  1,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي مجمع للغرف (C5, C6, C8, C9) بإجمالي 8,000 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3546 حصة الغرفة 2000 درهم إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "c5-c6-c8-c9-8000-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -1595,9 +1596,9 @@
         "contractTotalRent":  155000,
         "contractPeriod":  "سنة و 3 شهور",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2027.11.31)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C9",
@@ -1605,18 +1606,18 @@
         "tenant":  "محمد حلمي حسن الاشرم",
         "phone":  "",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/01",
         "dueDay":  1,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي مجمع للغرف (C5, C6, C8, C9) بإجمالي 8,000 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3546 حصة الغرفة 2000 درهم إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "c5-c6-c8-c9-8000-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -1629,9 +1630,9 @@
         "contractTotalRent":  155000,
         "contractPeriod":  "سنة و 3 شهور",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2027.11.31)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C11",
@@ -1670,25 +1671,25 @@
     {
         "room":  "C12",
         "section":  "C",
-        "tenant":  "شاغرة (تم الإخلاء وإلغاء العقد)",
+        "tenant":  "مستأجر جديد (شهر 10)",
         "phone":  "",
-        "rent":  0,
-        "paid":  0,
+        "rent":  1800,
+        "paid":  1800,
         "remaining":  0,
-        "status":  "خالي",
-        "statusCode":  "vacant",
+        "status":  "تم التحصيل",
+        "statusCode":  "paid",
         "category":  "vacant",
-        "dueDay":  0,
-        "startDate":  "-",
-        "effectiveRent":  0,
+        "dueDay":  4,
+        "startDate":  "2026/10/04",
+        "effectiveRent":  1800,
         "hasDiscount":  false,
         "discountAmount":  0,
         "discountReason":  "",
-        "auditNote":  "غرفة شاغرة",
+        "auditNote":  "إيداع نقدي 1,800 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3537 تحصيل شهر 10 إيجار جديد)",
         "receipts":  [
-
+                         "c12-1800-1.jpeg"
                      ],
-        "contractRent":  0,
+        "contractRent":  1800,
         "contractFile":  "",
         "contractStartDate":  "",
         "contractEndDate":  "",
@@ -1696,9 +1697,9 @@
         "contractTotalRent":  0,
         "contractPeriod":  "",
         "isContractOutdated":  false,
-        "contractStatus":  "شاغر",
-        "contractStatusCode":  "vacant",
-        "auditComment":  "شاغر"
+        "contractStatus":  "إيجار جديد مسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "إيجار جديد مسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C13",
@@ -2114,18 +2115,18 @@
         "tenant":  "محمد عبد الله محمد",
         "phone":  "544212914",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  2000,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2025/12/01",
         "dueDay":  1,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي 2,000 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3569 تحصيل شهر 10 إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "c25-2000-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -2138,9 +2139,9 @@
         "contractTotalRent":  12000,
         "contractPeriod":  "سنة",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.11.30)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C26",
@@ -2183,18 +2184,18 @@
         "tenant":  "زكريا محمد زكريا علي",
         "phone":  "عقد",
         "rent":  2000,
-        "paid":  0,
-        "remaining":  2000,
-        "status":  "لم يتم التحصيل",
+        "paid":  700,
+        "remaining":  1300,
+        "status":  "سداد جزئي",
         "startDate":  "2026/05/04",
         "dueDay":  4,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (2000)",
+        "auditNote":  "إيداع نقدي 700 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3540 تحصيل شهر 10 باقي 1300)",
         "category":  "month10",
         "receipts":  [
-
+                         "c27-700-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "partial",
         "contractRent":  2000,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -2207,9 +2208,9 @@
         "contractTotalRent":  6000,
         "contractPeriod":  "6 أشهر",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.11.14)"
+        "contractStatus":  "عقد سارٍ - سداد جزئي",
+        "contractStatusCode":  "contract_partial",
+        "auditComment":  "سداد جزئي 700 درهم (متبقي 1300)"
     },
     {
         "room":  "C28",
@@ -2251,18 +2252,18 @@
         "tenant":  "عارف الله جان حبيب",
         "phone":  "565587488",
         "rent":  1800,
-        "paid":  0,
-        "remaining":  1800,
-        "status":  "لم يتم التحصيل",
+        "paid":  1800,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/08/02",
         "dueDay":  2,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (1800)",
+        "auditNote":  "إيداع نقدي 1,800 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3570 تحصيل شهر 10 إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "c29-1800-1.jpeg"
                      ],
         "isDueUntil16":  false,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  1800,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -2275,9 +2276,9 @@
         "contractTotalRent":  5400,
         "contractPeriod":  "3 أشهر",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.11.12)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C30",
@@ -2866,18 +2867,18 @@
         "tenant":  "نور شاه واز",
         "phone":  "503205563",
         "rent":  1800,
-        "paid":  0,
-        "remaining":  1800,
-        "status":  "لم يتم التحصيل",
+        "paid":  1800,
+        "remaining":  0,
+        "status":  "تم التحصيل",
         "startDate":  "2026/09/01",
         "dueDay":  1,
-        "auditNote":  "استحقاق شهر 10 (أكتوبر) - بانتظار سداد الإيجار (1800)",
+        "auditNote":  "إيداع نقدي 1,800 درهم (مصفح فرع 6 - 04/10/2026 ADB07015 إيصال 3558 تحصيل شهر 10 إكتمل)",
         "category":  "month10",
         "receipts":  [
-
+                         "c47-1800-1.jpeg"
                      ],
         "isDueUntil16":  true,
-        "statusCode":  "unpaid",
+        "statusCode":  "paid",
         "contractRent":  1800,
         "hasDiscount":  false,
         "discountAmount":  0,
@@ -2890,9 +2891,9 @@
         "contractTotalRent":  5400,
         "contractPeriod":  "3 أشهر",
         "isContractOutdated":  false,
-        "contractStatus":  "يوجد عقد ولا يوجد إيصال",
-        "contractStatusCode":  "contract_no_receipt",
-        "auditComment":  "يوجد عقد ولا يوجد إيصال (2026.12.1)"
+        "contractStatus":  "عقد سارٍ ومسدد بإيصال",
+        "contractStatusCode":  "contract_paid",
+        "auditComment":  "عقد سارٍ ومسدد بإيصال (شهر 10)"
     },
     {
         "room":  "C48",
